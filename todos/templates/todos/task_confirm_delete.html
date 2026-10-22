@@ -1,0 +1,53 @@
+{% extends 'todos/base.html' %}
+
+{% block title %}Confirm Delete - TaskFlow{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <div class="card p-4 p-md-5 text-center">
+            <div class="mb-3">
+                <span class="badge bg-danger-subtle text-danger p-3 rounded-circle" style="font-size: 2.5rem; display: inline-flex;">
+                    <i class="bi bi-trash3"></i>
+                </span>
+            </div>
+
+            <h3 class="fw-bold mb-2">Delete this task?</h3>
+            <p class="text-muted mb-4">
+                Are you sure you want to permanently delete this task? This action cannot be undone.
+            </p>
+
+            <div class="card bg-light border p-3 mb-4 text-start">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                    <h5 class="fw-bold mb-0 text-break">{{ task.title }}</h5>
+                    <span class="badge badge-priority-{{ task.priority }} rounded-pill px-2 py-1 small">
+                        {{ task.get_priority_display }}
+                    </span>
+                </div>
+                {% if task.description %}
+                    <p class="text-muted small mb-2 text-break">{{ task.description }}</p>
+                {% endif %}
+                <div class="small text-muted">
+                    <span>Created: {{ task.created_at|date:"M j, Y" }}</span>
+                    {% if task.due_date %}
+                        &bull; <span>Due: {{ task.due_date|date:"M j, Y" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{% url 'task_list' %}" class="btn btn-outline-secondary px-4">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-danger px-4 d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-trash"></i>
+                        <span>Yes, Delete Task</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
